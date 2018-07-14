@@ -3,7 +3,7 @@
     <mu-paper :z-depth="3" class="paper-title">
       <Residue :height="165" :residue="90" style="margin-top: -10px;float:left;"></Residue>
       <div style="float:right;margin-top: 10px;">
-        <span class="span-title">当月剩余：<span class="span-money">20,203</span> 元</span>
+        <span class="span-title">当月剩余：<span class="span-money">40,203</span> 元</span>
         <br /><br />
         <span class="span-title">当月消费：<span class="span-money" style="color:#4caf50">356</span> 元</span>
         <br /><br />
