@@ -3,22 +3,82 @@
     <mu-paper :z-depth="3" class="paper-title">
       <Residue :height="165" :residue="90" style="margin-top: -10px;float:left;"></Residue>
       <div style="float:right;margin-top: 10px;">
-        <span class="span-title">当月剩余：<span class="span-money">50,203</span> 元</span>
+        <span class="span-title">当月剩余：
+          <span class="span-money">50,203</span> 元</span>
         <br /><br />
-        <span class="span-title">当月消费：<span class="span-money" style="color:#4caf50">356</span> 元</span>
+        <span class="span-title">当月消费：
+          <span class="span-money" style="color:#4caf50">356</span> 元</span>
         <br /><br />
-        <span class="span-title">6月的今天：<span class="span-money" style="color:#4caf50">478</span> 元</span>
+        <span class="span-title">6月的今天：
+          <span class="span-money" style="color:#4caf50">478</span> 元</span>
       </div>
     </mu-paper>
     <mu-paper :z-depth="3" style="height:100px;padding:10px">
       <mu-text-field style="height:80px;width:100%" v-model="value6" label="消费金额" prefix="￥" label-float></mu-text-field><br/>
     </mu-paper>
+    <mu-paper :z-depth="3" style="padding:10px;margin-top: 10px;">
+      <mu-list>
+        <mu-sub-header>最近消费</mu-sub-header>
+        <mu-divider></mu-divider>
+        <mu-list-item avatar button :ripple="false">
+          <mu-list-item-action style="width:280px">
+            300 元
+          </mu-list-item-action>
+          <mu-list-item-title>加油</mu-list-item-title>
+          <mu-list-item-action style="width:380px">
+            2018年7月14日
+          </mu-list-item-action>
+        </mu-list-item>
+        <mu-list-item avatar button :ripple="false">
+          <mu-list-item-action style="width:280px">
+            300 元
+          </mu-list-item-action>
+          <mu-list-item-title>加油</mu-list-item-title>
+          <mu-list-item-action style="width:380px">
+            2018年7月14日
+          </mu-list-item-action>
+        </mu-list-item>
+        <mu-list-item avatar button :ripple="false">
+          <mu-list-item-action style="width:280px">
+            300 元
+          </mu-list-item-action>
+          <mu-list-item-title>加油</mu-list-item-title>
+          <mu-list-item-action style="width:380px">
+            2018年7月14日
+          </mu-list-item-action>
+        </mu-list-item>
+      </mu-list>
+    </mu-paper>
+    <mu-paper :z-depth="3" style="padding:10px;margin-top: 10px;">
+      <mu-list>
+        <mu-sub-header>快速添加</mu-sub-header>
+        <mu-divider></mu-divider>
+        <mu-list-item avatar button :ripple="false">
+          <mu-list-item-action style="width:280px">
+            15 元
+          </mu-list-item-action>
+          <mu-list-item-title>午餐</mu-list-item-title>
+          <mu-list-item-action>
+            <mu-icon value="flight_takeoff"></mu-icon>
+          </mu-list-item-action>
+        </mu-list-item>
+        <mu-list-item avatar button :ripple="false">
+          <mu-list-item-action style="width:280px">
+            8 元
+          </mu-list-item-action>
+          <mu-list-item-title>公交</mu-list-item-title>
+          <mu-list-item-action>
+            <mu-icon value="flight_takeoff"></mu-icon>
+          </mu-list-item-action>
+        </mu-list-item>
+      </mu-list>
+    </mu-paper>
   </main-layout>
 </template>
 
 <script>
-import MainLayout from "../layouts/Main.vue";
-import Residue from "../components/Residue.vue";
+import MainLayout from '../layouts/Main.vue'
+import Residue from '../components/Residue.vue'
 
 export default {
   components: {
@@ -27,11 +87,11 @@ export default {
   },
   data() {
     return {
-      value6: ""
-    };
+      value6: ''
+    }
   },
   mounted() {}
-};
+}
 </script>
 
 <style scoped>
