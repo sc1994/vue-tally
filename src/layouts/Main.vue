@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: #eee;height:100%">
+  <div>
     <div style="padding:10px">
       <slot></slot>
     </div>
@@ -24,9 +24,13 @@ export default {
 }
 
 .bot-van {
-  position: absolute;
+  position: fixed;
   bottom: 0px;
 }
 
-body,html{overflow-x:hidden;}
+body,
+html {
+  overflow-x: hidden;
+  background-color: #eee;
+}
 </style>

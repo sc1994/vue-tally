@@ -71,6 +71,31 @@
             <mu-icon value="flight_takeoff"></mu-icon>
           </mu-list-item-action>
         </mu-list-item>
+        <mu-list-item avatar button :ripple="false">
+          <mu-list-item-action style="width:280px">
+            8 元
+          </mu-list-item-action>
+          <mu-list-item-title>公交</mu-list-item-title>
+          <mu-list-item-action>
+            <mu-icon value="flight_takeoff"></mu-icon>
+          </mu-list-item-action>
+        </mu-list-item>
+        <mu-list-item avatar button :ripple="false">
+          <mu-list-item-action style="width:280px">
+            8 元
+          </mu-list-item-action>
+          <mu-list-item-title>公交</mu-list-item-title>
+          <mu-list-item-action>
+            <mu-icon value="flight_takeoff"></mu-icon>
+          </mu-list-item-action>
+        </mu-list-item>
+        <mu-list-item avatar button :ripple="false">
+          <mu-list-item-action style="width:280px">
+          </mu-list-item-action>
+          <mu-list-item-title></mu-list-item-title>
+          <mu-list-item-action>
+          </mu-list-item-action>
+        </mu-list-item>
       </mu-list>
     </mu-paper>
   </main-layout>
