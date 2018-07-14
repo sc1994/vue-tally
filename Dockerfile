@@ -2,9 +2,6 @@
 FROM nginx:latest
 # copy代码
 COPY . /src
-RUN cd /src
-RUN npm i
-RUN npm run build
 # 添加nginx配置文件
 COPY nginx.conf /etc/nginx/nginx.conf
 # 去掉默认的nginx配置文件
