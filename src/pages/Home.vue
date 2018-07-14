@@ -3,7 +3,7 @@
     <mu-paper :z-depth="3" class="paper-title">
       <mu-flex align-items="start">
         <mu-flex justify-content="center">
-          <span style="color:white">当月预算还剩：100元</span>
+          <span style="color:white">当月预算还剩：1200元</span>
         </mu-flex>
         <mu-flex justify-content="center" fill>
           <Residue :height="150" :residue="90"></Residue>
