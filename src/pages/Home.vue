@@ -1,14 +1,13 @@
 <template>
   <main-layout>
     <mu-paper :z-depth="3" class="paper-title">
-      <mu-flex align-items="start">
-        <mu-flex justify-content="center">
-          <span style="color:white">当月预算还剩：1200元</span>
-        </mu-flex>
-        <mu-flex justify-content="center" fill>
-          <Residue :height="150" :residue="90"></Residue>
-        </mu-flex>
-      </mu-flex>
+      <Residue :height="165" :residue="90" style="margin-top: -10px;float:left;"></Residue>
+      <div style="float:right;margin-top: 10px;">
+        <span class="span-title">当月剩余：<span class="span-money">10,203</span> 元</span>
+        <br /><br />
+        <span class="span-title">当月消费：<span class="span-money" style="color:#4caf50">356</span> 元</span>
+        <br /><br />
+        <span class="span-title">6月的今天：<span class="span-money" style="color:#4caf50">478</span> 元</span>
       </div>
     </mu-paper>
     <mu-paper :z-depth="3" style="height:100px;padding:10px">
@@ -18,8 +17,8 @@
 </template>
 
 <script>
-import MainLayout from '../layouts/Main.vue'
-import Residue from '../components/Residue.vue'
+import MainLayout from "../layouts/Main.vue";
+import Residue from "../components/Residue.vue";
 
 export default {
   components: {
@@ -28,37 +27,38 @@ export default {
   },
   data() {
     return {
-      value6: ''
-    }
+      value6: ""
+    };
   },
   mounted() {}
-}
+};
 </script>
 
 <style scoped>
+.span-title {
+  color: #424242;
+  margin-right: 10px;
+}
+.span-money {
+  font-size: 20px;
+  font-weight: 500;
+  color: #ff5722;
+}
 .paper-title {
   height: 180px;
   padding: 10px;
   margin-bottom: 10px;
-  background: linear-gradient(
-    90deg,
-    #01579b 0%,
-    #006064 33%,
-    #0d47a1 66%,
-    #37474f 100%
-  );
-  background-position: 100% 0;
-  animation: bgSize 5s infinite ease-in-out alternate;
-}
-@keyframes bgSize {
-  0% {
-    background-size: 300% 100%;
-  }
-  50% {
-    background-size: 200% 200%;
-  }
-  100% {
-    background-size: 100% 100%;
-  }
+  background-color: #e4e4e1;
+  background-image: radial-gradient(
+      at top center,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(0, 0, 0, 0.03) 100%
+    ),
+    linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(143, 152, 157, 0.6) 100%
+    );
+  background-blend-mode: normal, multiply;
 }
 </style>
