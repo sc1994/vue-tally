@@ -14,7 +14,11 @@
       </div>
     </mu-paper>
     <mu-paper :z-depth="3" style="height:100px;padding:10px">
-      <mu-text-field style="height:80px;width:100%" v-model="value6" label="消费金额" prefix="￥" label-float></mu-text-field><br/>
+      <mu-text-field style="height:80px;width:100%" 
+                     v-model="value6" 
+                     label="消费金额" 
+                     prefix="￥" type="number"
+                     label-float></mu-text-field><br/>
     </mu-paper>
     <mu-paper :z-depth="3" style="padding:10px;margin-top: 10px;">
       <mu-list>
