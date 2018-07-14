@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "启动 Chrome 并打开 localhost",
             "url": "http://localhost:8081",
-            "webRoot": "${workspaceFolder}"
+            "webRoot": "D:\\self\\vue-tally"
         }
     ]
 }

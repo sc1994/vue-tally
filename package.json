@@ -1,5 +1,5 @@
 {
-  "name": "vue-2.0-simple-routing-example",
+  "name": "tally",
   "description": "A Vue.js project",
   "author": "Chris Fritz <chrisvfritz@gmail.com>",
   "private": true,
@@ -10,6 +10,8 @@
     "deploy": "surge --project . --domain vue-2-simple-routing-example.surge.sh"
   },
   "dependencies": {
+    "@antv/f2": "^3.1.15",
+    "muse-ui": "^3.0.0-rc.5",
     "vue": "^2.3.3"
   },
   "devDependencies": {
