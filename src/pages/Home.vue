@@ -14,94 +14,122 @@
       </div>
     </mu-paper>
     <mu-paper :z-depth="3" style="height:100px;padding:10px">
-      <mu-text-field style="height:80px;width:100%" 
-                     v-model="value6" 
-                     label="消费金额" 
-                     prefix="￥" type="number"
-                     label-float></mu-text-field><br/>
+      <mu-text-field style="height:80px;width:60%" v-model="value6" label="消费金额" prefix="￥" type="number" label-float></mu-text-field>
+      <mu-button ref="button" style="width:33%;margin-left: 5%;" @click="open = !open">记账</mu-button>
+      <mu-popover cover :open.sync="open" :trigger="trigger">
+        <mu-list>
+          <mu-list-item button>
+            <mu-list-item-title>午餐</mu-list-item-title>
+          </mu-list-item>
+          <mu-list-item button>
+            <mu-list-item-title>水果</mu-list-item-title>
+          </mu-list-item>
+          <mu-list-item button>
+            <mu-list-item-title>奶粉</mu-list-item-title>
+          </mu-list-item>
+          <mu-list-item button>
+            <mu-list-item-title>尿不湿</mu-list-item-title>
+          </mu-list-item>
+          <mu-list-item button>
+            <mu-list-item-title>加油</mu-list-item-title>
+          </mu-list-item>
+        </mu-list>
+      </mu-popover>
     </mu-paper>
-    <mu-paper :z-depth="3" style="padding:10px;margin-top: 10px;">
-      <mu-list>
-        <mu-sub-header>最近消费</mu-sub-header>
-        <mu-divider></mu-divider>
-        <mu-list-item avatar button :ripple="false">
-          <mu-list-item-action style="width:280px">
-            300 元
-          </mu-list-item-action>
-          <mu-list-item-title>加油</mu-list-item-title>
-          <mu-list-item-action style="width:380px">
-            2018年7月14日
-          </mu-list-item-action>
-        </mu-list-item>
-        <mu-list-item avatar button :ripple="false">
-          <mu-list-item-action style="width:280px">
-            300 元
-          </mu-list-item-action>
-          <mu-list-item-title>加油</mu-list-item-title>
-          <mu-list-item-action style="width:380px">
-            2018年7月14日
-          </mu-list-item-action>
-        </mu-list-item>
-        <mu-list-item avatar button :ripple="false">
-          <mu-list-item-action style="width:280px">
-            300 元
-          </mu-list-item-action>
-          <mu-list-item-title>加油</mu-list-item-title>
-          <mu-list-item-action style="width:380px">
-            2018年7月14日
-          </mu-list-item-action>
-        </mu-list-item>
-      </mu-list>
-    </mu-paper>
-    <mu-paper :z-depth="3" style="padding:10px;margin-top: 10px;">
-      <mu-list>
-        <mu-sub-header>快速添加</mu-sub-header>
-        <mu-divider></mu-divider>
-        <mu-list-item avatar button :ripple="false">
-          <mu-list-item-action style="width:280px">
-            15 元
-          </mu-list-item-action>
-          <mu-list-item-title>午餐</mu-list-item-title>
-          <mu-list-item-action>
-            <mu-icon value="flight_takeoff"></mu-icon>
-          </mu-list-item-action>
-        </mu-list-item>
-        <mu-list-item avatar button :ripple="false">
-          <mu-list-item-action style="width:280px">
-            8 元
-          </mu-list-item-action>
-          <mu-list-item-title>公交</mu-list-item-title>
-          <mu-list-item-action>
-            <mu-icon value="flight_takeoff"></mu-icon>
-          </mu-list-item-action>
-        </mu-list-item>
-        <mu-list-item avatar button :ripple="false">
-          <mu-list-item-action style="width:280px">
-            8 元
-          </mu-list-item-action>
-          <mu-list-item-title>公交</mu-list-item-title>
-          <mu-list-item-action>
-            <mu-icon value="flight_takeoff"></mu-icon>
-          </mu-list-item-action>
-        </mu-list-item>
-        <mu-list-item avatar button :ripple="false">
-          <mu-list-item-action style="width:280px">
-            8 元
-          </mu-list-item-action>
-          <mu-list-item-title>公交</mu-list-item-title>
-          <mu-list-item-action>
-            <mu-icon value="flight_takeoff"></mu-icon>
-          </mu-list-item-action>
-        </mu-list-item>
-        <mu-list-item avatar button :ripple="false">
-          <mu-list-item-action style="width:280px">
-          </mu-list-item-action>
-          <mu-list-item-title></mu-list-item-title>
-          <mu-list-item-action>
-          </mu-list-item-action>
-        </mu-list-item>
-      </mu-list>
-    </mu-paper>
+    <br/>
+    <mu-list>
+      <mu-sub-header>
+        最近消费
+        <mu-button flat color="primary" class="button-right">查看全部</mu-button>
+      </mu-sub-header>
+      <mu-divider></mu-divider>
+      <mu-list-item avatar button :ripple="false">
+        <mu-list-item-action style="width:280px">
+          300 元
+        </mu-list-item-action>
+        <mu-list-item-title>加油</mu-list-item-title>
+        <mu-list-item-action style="width:380px">
+          2018年7月14日
+        </mu-list-item-action>
+      </mu-list-item>
+      <mu-list-item avatar button :ripple="false">
+        <mu-list-item-action style="width:280px">
+          300 元
+        </mu-list-item-action>
+        <mu-list-item-title>加油</mu-list-item-title>
+        <mu-list-item-action style="width:380px">
+          2018年7月14日
+        </mu-list-item-action>
+      </mu-list-item>
+      <mu-list-item avatar button :ripple="false">
+        <mu-list-item-action style="width:280px">
+          300 元
+        </mu-list-item-action>
+        <mu-list-item-title>加油</mu-list-item-title>
+        <mu-list-item-action style="width:380px">
+          2018年7月14日
+        </mu-list-item-action>
+      </mu-list-item>
+    </mu-list>
+    <mu-list>
+      <mu-sub-header>
+        快速记录
+        <mu-button flat color="primary" class="button-right">添加更多</mu-button>
+      </mu-sub-header>
+      <mu-divider></mu-divider>
+      <mu-list-item avatar button :ripple="false">
+        <mu-list-item-action style="width:280px">
+          15 元
+        </mu-list-item-action>
+        <mu-list-item-title>午餐</mu-list-item-title>
+        <mu-list-item-action>
+          <mu-button icon color="#4caf50">
+            <mu-icon right value="flight_takeoff"></mu-icon>
+          </mu-button>
+        </mu-list-item-action>
+      </mu-list-item>
+      <mu-list-item avatar button :ripple="false">
+        <mu-list-item-action style="width:280px">
+          8 元
+        </mu-list-item-action>
+        <mu-list-item-title>公交</mu-list-item-title>
+        <mu-list-item-action>
+          <mu-button icon color="#4caf50">
+            <mu-icon right value="flight_takeoff"></mu-icon>
+          </mu-button>
+        </mu-list-item-action>
+      </mu-list-item>
+      <mu-list-item avatar button :ripple="false">
+        <mu-list-item-action style="width:280px">
+          8 元
+        </mu-list-item-action>
+        <mu-list-item-title>公交</mu-list-item-title>
+        <mu-list-item-action>
+          <mu-button icon color="#4caf50">
+            <mu-icon right value="flight_takeoff"></mu-icon>
+          </mu-button>
+        </mu-list-item-action>
+      </mu-list-item>
+      <mu-list-item avatar button :ripple="false">
+        <mu-list-item-action style="width:280px">
+          8 元
+        </mu-list-item-action>
+        <mu-list-item-title>公交</mu-list-item-title>
+        <mu-list-item-action>
+          <mu-button icon color="#4caf50">
+            <mu-icon right value="flight_takeoff"></mu-icon>
+          </mu-button>
+        </mu-list-item-action>
+      </mu-list-item>
+      <!-- 留个空的撑开样式 -->
+      <mu-list-item avatar button :ripple="false">
+        <mu-list-item-action style="width:280px">
+        </mu-list-item-action>
+        <mu-list-item-title></mu-list-item-title>
+        <mu-list-item-action>
+        </mu-list-item-action>
+      </mu-list-item>
+    </mu-list>
   </main-layout>
 </template>
 
@@ -116,14 +144,21 @@ export default {
   },
   data() {
     return {
-      value6: ''
+      value6: '',
+      open: false,
+      trigger: null
     }
   },
-  mounted() {}
+  mounted() {
+    this.trigger = this.$refs.button.$el
+  }
 }
 </script>
 
 <style scoped>
+.button-right {
+  margin-left: 55%;
+}
 .span-title {
   color: #424242;
   margin-right: 10px;
