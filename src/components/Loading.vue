@@ -1,13 +1,13 @@
 <template>
-    <div class="loader13 loader" v-if="show">
-        <div class="loader-13">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+  <div class="loader13 loader" v-if="show">
+    <div class="loader-13">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
+  </div>
 </template>
 
 <script>

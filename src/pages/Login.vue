@@ -119,6 +119,7 @@ export default {
               }
               if (data.user && data.user.Name == that.loginModel.username) {
                 that.openMsg('success', '登陆成功')
+                localStorage.setItem('token', data.token)
                 setTimeout(() => {
                   this.$root.currentRoute = '/'
                   window.history.pushState(null, routes['/'], '/')
