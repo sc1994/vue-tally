@@ -1,8 +1,12 @@
+import 'muse-ui-loading/dist/muse-ui-loading.css'
 import Vue from 'vue'
 import routes from './routes'
 import MuseUI from 'muse-ui'
+import Loading from 'muse-ui-loading'
 
 Vue.use(MuseUI)
+Vue.use(Loading)
+
 
 const app = new Vue({
   el: '#app',
