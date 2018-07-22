@@ -112,8 +112,12 @@ export default {
             var data = result.data
             if (data) {
               if (that.active == 1) {
-                that.openMsg('success', '注册成功，请登陆')
-                that.active = 0
+                if (data.result) {
+                  that.openMsg('success', '注册成功，请登陆')
+                  that.active = 0
+                } else {
+                  that.openMsg('error', '注册失败，请检查用户名是否重复')
+                }
                 that.loading = false
                 return
               }
@@ -159,7 +163,7 @@ export default {
         .then(result => {
           var data = result.data
           if (data) {
-            if (data.exit) {
+            if (data.exist) {
               that.nameErrorText = '已存在的用户名'
             } else {
               that.nameErrorText = ''
