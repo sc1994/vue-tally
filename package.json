@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@antv/f2": "^3.1.15",
+    "axios": "^0.18.0",
     "muse-ui": "^3.0.0-rc.5",
+    "muse-ui-loading": "^0.2.0",
     "vue": "^2.3.3"
   },
   "devDependencies": {
