@@ -15,8 +15,8 @@
         </div>
       </mu-paper>
       <mu-paper :z-depth="3" style="height:100px;padding:10px">
-        <mu-auto-complete @change="showMode" style="height:80px;width:45%" :data="consumes" label="消费类型" :max-search-results="5" v-model="consume" open-on-focus label-float></mu-auto-complete>
         <mu-text-field @blur="showMode" style="height:80px;width:50%" v-model="money" label="消费金额" prefix="￥" type="number" label-float></mu-text-field>
+        <mu-auto-complete @change="showMode" style="height:80px;width:45%" :data="consumes" label="消费类型" :max-search-results="5" v-model="consume" open-on-focus label-float></mu-auto-complete>
       </mu-paper>
       <br/>
       <mu-list>
