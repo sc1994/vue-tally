@@ -268,7 +268,17 @@ export default {
   },
   methods: {
     submit() {
-      alert(1)
+      var that = this
+      axios
+        .post('/inserttally', {
+          token: localStorage.getItem('token')
+        })
+        .then(result => {
+          alert("success")
+        })
+        .catch(err => {
+          debugger
+        })
     },
     showMode() {
       var that = this
