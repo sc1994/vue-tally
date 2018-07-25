@@ -271,10 +271,16 @@ export default {
       var that = this
       axios
         .post('/inserttally', {
-          token: localStorage.getItem('token')
+          token: localStorage.getItem('token'),
+          money: that.money,
+          type: that.consume,
+          mode: that.modeForm.mode,
+          channel: that.modeForm.channel,
+          remark: that.modeForm.other.remark,
+          ctime: that.modeForm.other.date
         })
         .then(result => {
-          alert("success")
+          alert('success')
         })
         .catch(err => {
           debugger
