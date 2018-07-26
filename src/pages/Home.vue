@@ -15,8 +15,8 @@
         </div>
       </mu-paper>
       <mu-paper :z-depth="3" style="height:100px;padding:10px">
-        <mu-auto-complete @change="showMode" style="height:80px;width:45%" :data="consumes" label="消费类型" :max-search-results="5" v-model="consume" open-on-focus label-float></mu-auto-complete>
         <mu-text-field @blur="showMode" style="height:80px;width:50%" v-model="money" label="消费金额" prefix="￥" type="number" label-float></mu-text-field>
+        <mu-auto-complete @change="showMode" style="height:80px;width:45%" :data="consumes" label="消费类型" :max-search-results="5" v-model="consume" open-on-focus label-float></mu-auto-complete>
       </mu-paper>
       <br/>
       <mu-list>
@@ -268,7 +268,23 @@ export default {
   },
   methods: {
     submit() {
-      alert(1)
+      var that = this
+      axios
+        .post('/inserttally', {
+          token: localStorage.getItem('token'),
+          money: that.money,
+          type: that.consume,
+          mode: that.modeForm.mode,
+          channel: that.modeForm.channel,
+          remark: that.modeForm.other.remark,
+          ctime: that.modeForm.other.date
+        })
+        .then(result => {
+          alert('success')
+        })
+        .catch(err => {
+          debugger
+        })
     },
     showMode() {
       var that = this
