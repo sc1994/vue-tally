@@ -115,7 +115,7 @@
     </main-layout>
     <Self-Loading :show="loading"></Self-Loading>
     <Self-Alert :msg="alert.msg" :show.sync="show" :type="alert.type"></Self-Alert>
-    <Self-User :user.sync="user"></Self-User>
+    <Self-User :user.sync="user" v-if="showUser"></Self-User>
     <mu-dialog fullscreen :open.sync="openScroll">
       <mu-appbar color="primary" :title="consume+'：'+money+' 元'">
         <mu-button slot="left" icon @click="openScroll = false">
@@ -263,7 +263,8 @@ export default {
       consumes: [],
       consume: '',
       user: {},
-      stepHeight: [130, 50, 50]
+      stepHeight: [130, 50, 50],
+      showUser: false
     }
   },
   methods: {
@@ -282,13 +283,21 @@ export default {
         })
         .then(result => {
           if (result.data.result) {
-            axios.post('/', {}).then(result=>{
-              
-            })
+            that.initUser()
             that.alert.msg = '记录完成'
             that.alert.type = 'success'
             that.show = true
             that.loading = false
+            setTimeout(() => {
+              that.openScroll = false
+              that.modeForm.mode = '0'
+              that.modeForm.channel = '0'
+              that.modeForm.mode = '0'
+              that.modeForm.other = {}
+              that.money = ''
+              that.consume = ''
+              that.step = 0
+            }, 500)
           }
         })
         .catch(err => {
@@ -303,6 +312,12 @@ export default {
       if (that.money.length <= 0 || that.consume.length <= 0) return
       setTimeout(() => {
         that.openScroll = true
+      }, 200)
+    },
+    initUser() {
+      this.showUser = false
+      setTimeout(() => {
+        this.showUser = true
       }, 100)
     }
   },
@@ -338,6 +353,9 @@ export default {
         }了${that.money}元。`
       }
     }
+  },
+  mounted() {
+    this.showUser = true
   }
 }
 </script>

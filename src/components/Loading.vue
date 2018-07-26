@@ -32,7 +32,7 @@ export default {
   justify-content: center;
   display: flex;
   align-items: center;
-  z-index: 9999;
+  z-index: 20181219;
   position: fixed;
 }
 </style>
