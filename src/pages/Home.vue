@@ -269,6 +269,7 @@ export default {
   methods: {
     submit() {
       var that = this
+      that.loading = true
       axios
         .post('/inserttally', {
           token: localStorage.getItem('token'),
@@ -280,10 +281,21 @@ export default {
           ctime: that.modeForm.other.date
         })
         .then(result => {
-          alert('success')
+          if (result.data.result) {
+            axios.post('/', {}).then(result=>{
+              
+            })
+            that.alert.msg = '记录完成'
+            that.alert.type = 'success'
+            that.show = true
+            that.loading = false
+          }
         })
         .catch(err => {
-          debugger
+          that.alert.msg = '系统异常请重试'
+          that.alert.type = 'error'
+          that.show = true
+          that.loading = false
         })
     },
     showMode() {
