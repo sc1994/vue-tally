@@ -7,7 +7,7 @@
       <mu-tab>登 陆</mu-tab>
       <mu-tab>注 册</mu-tab>
     </mu-tabs>
-    <mu-form ref="form" :model="loginModel" style="height: 20px;margin-top: 36px;">
+    <mu-form ref="form" :model="loginModel" style="height: 28px;margin-top: 36px;">
       <mu-form-item label="用户名" prop="username" :rules="usernameRules">
         <mu-text-field v-model="loginModel.username" :error-text="nameErrorText" prop="username" @blur="chenkName"></mu-text-field>
       </mu-form-item>
@@ -121,7 +121,7 @@ export default {
                 that.loading = false
                 return
               }
-              if (data.user && data.user.Name == that.loginModel.username) {
+              if (data.user && data.user.name == that.loginModel.username) {
                 that.openMsg('success', '登陆成功')
                 localStorage.setItem('token', data.token)
                 setTimeout(() => {

@@ -1,7 +1,7 @@
 <template>
-  <main-layout>
+  <!-- <main-layout>
     查账
-  </main-layout>
+  </main-layout> -->
 </template>
 
 <script>

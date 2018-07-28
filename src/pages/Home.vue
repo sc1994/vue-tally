@@ -1,6 +1,6 @@
 <template>
   <div>
-    <main-layout>
+    <main-layout :alert.sync="alert" :loading.sync="loading" :user.sync="user" :initUser="initUser">
       <mu-paper :z-depth="3" class="paper-title">
         <Residue :height="165" :residue="90" style="margin-top: -10px;float:left;"></Residue>
         <div style="float:right;margin-top: 10px;">
@@ -15,8 +15,8 @@
         </div>
       </mu-paper>
       <mu-paper :z-depth="3" style="height:100px;padding:10px">
-        <mu-text-field @blur="showMode" style="height:80px;width:50%" v-model="money" label="消费金额" prefix="￥" type="number" label-float></mu-text-field>
-        <mu-auto-complete @change="showMode" style="height:80px;width:45%" :data="consumes" label="消费类型" :max-search-results="5" v-model="consume" open-on-focus label-float></mu-auto-complete>
+        <mu-text-field @blur="showMode" v-model="tallyForm.money" style="height:80px;width:50%" label="消费金额" prefix="￥" type="number" label-float></mu-text-field>
+        <mu-auto-complete @change="showMode" v-model="tallyForm.consume" :data="manyType.consumes" style="height:80px;width:45%" label="消费类型" :max-search-results="5" open-on-focus label-float></mu-auto-complete>
       </mu-paper>
       <br/>
       <mu-list>
@@ -113,11 +113,9 @@
         </mu-list-item>
       </mu-list>
     </main-layout>
-    <Self-Loading :show="loading"></Self-Loading>
-    <Self-Alert :msg="alert.msg" :show.sync="show" :type="alert.type"></Self-Alert>
-    <Self-User :user.sync="user" v-if="showUser"></Self-User>
+
     <mu-dialog fullscreen :open.sync="openScroll">
-      <mu-appbar color="primary" :title="consume+'：'+money+' 元'">
+      <mu-appbar color="primary" :title="tallyForm.consume+'：'+tallyForm.money+' 元'">
         <mu-button slot="left" icon @click="openScroll = false">
           <mu-icon value="close"></mu-icon>
         </mu-button>
@@ -129,14 +127,14 @@
       <mu-stepper :active-step="step" orientation="vertical">
         <mu-step :style="'height:'+stepHeight[0]+'px;'">
           <mu-step-label>
-            收入/支出
-            <b>{{modeForm.mode!=0 ? " ：":""}}{{modeForm.modes[modeForm.mode].content}}</b>
+            收入/支出/预支
+            <b>{{tallyForm.mode.length>0 ? " ：":""}}{{tallyForm.mode}}</b>
           </mu-step-label>
           <mu-step-content>
             <mu-list>
-              <mu-list-item v-if="item.type!=0" :key="item.type" v-for="item in modeForm.modes">
+              <mu-list-item v-if="item.content.length>0 && !item.hide" :key="index" v-for="item,index in manyType.modes">
                 <mu-list-item-content>
-                  <mu-radio :label="item.content" :value="item.type" v-model="modeForm.mode" @change="step++"></mu-radio>
+                  <mu-radio :label="item.content" :value="item.content" v-model="tallyForm.mode" @change="step++"></mu-radio>
                 </mu-list-item-content>
               </mu-list-item>
             </mu-list>
@@ -145,13 +143,13 @@
         <mu-step :style="'height:'+stepHeight[1]+'px;'">
           <mu-step-label>
             方式
-            <b>{{modeForm.channel!=0 ? " ：":""}}{{modeForm.channels[modeForm.channel].content}}</b>
+            <b>{{tallyForm.channel.length>0 ? " ：":""}}{{tallyForm.channel}}</b>
           </mu-step-label>
           <mu-step-content>
             <mu-list>
-              <mu-list-item v-if="item.type!=0" :key="item.type" v-for="item in modeForm.channels">
+              <mu-list-item v-if="item.content.length>0 && !item.hide" :key="index" v-for="item,index in manyType.channels">
                 <mu-list-item-content>
-                  <mu-radio :label="item.content" :value="item.type" v-model="modeForm.channel" @change="step++"></mu-radio>
+                  <mu-radio :label="item.content" :value="item.content" v-model="tallyForm.channel" @change="step++"></mu-radio>
                 </mu-list-item-content>
               </mu-list-item>
             </mu-list>
@@ -164,12 +162,12 @@
           </mu-step-label>
           <mu-step-content>
             <br/>
-            <mu-form :model="modeForm.other" label-position="top" label-width="70">
-              <mu-form-item prop="date" label="日期" style="height:50px">
-                <mu-date-input v-model="modeForm.other.date" type="dateTime" actions></mu-date-input>
+            <mu-form :model="tallyForm" label-position="top" label-width="70">
+              <mu-form-item prop="date" label="日期">
+                <mu-date-input v-model="tallyForm.date" type="dateTime" actions style="height: 30px;"></mu-date-input>
               </mu-form-item>
-              <mu-form-item prop="input" label="备注" style="height:50px">
-                <mu-text-field v-model="modeForm.other.remark"></mu-text-field>
+              <mu-form-item prop="input" label="备注">
+                <mu-text-field v-model="tallyForm.remark" style="height: 30px;"></mu-text-field>
               </mu-form-item>
               <mu-form-item>
                 <mu-button flat @click="step--" color="primary">上一步</mu-button>
@@ -185,86 +183,38 @@
 <script>
 import MainLayout from '../layouts/Main.vue'
 import Residue from '../components/Residue.vue'
-import SelfLoading from '../components/Loading.vue'
-import SelfAlert from '../components/Alert.vue'
-import SelfUser from '../components/User.vue'
 
 export default {
   components: {
     MainLayout,
-    Residue,
-    SelfLoading,
-    SelfAlert,
-    SelfUser
+    Residue
   },
   data() {
     return {
-      modeForm: {
-        mode: '0',
-        channel: '0',
-        other: {
-          date: '',
-          remark: ''
-        },
-        channels: [
-          {
-            type: '0',
-            content: '' // 空类型用以展示
-          },
-          {
-            type: '1',
-            content: '微信支付'
-          },
-          {
-            type: '2',
-            content: '支付宝余额'
-          },
-          {
-            type: '3',
-            content: '花呗'
-          },
-          {
-            type: '4',
-            content: '银行卡'
-          },
-          {
-            type: '5',
-            content: '信用卡'
-          },
-          {
-            type: '6',
-            content: '现金'
-          }
-        ],
-        modes: [
-          {
-            type: '0',
-            content: '' // 空类型用以展示
-          },
-          {
-            type: '1',
-            content: '收入'
-          },
-          {
-            type: '2',
-            content: '支出'
-          }
-        ]
+      tallyForm: {
+        money: '',
+        consume: '',
+        mode: '',
+        channel: '',
+        date: '',
+        remark: ''
       },
-      step: 0,
-      show: false,
+      manyType: {
+        channels: [],
+        modes: [],
+        consumes: []
+      },
+      step: -1,
       openScroll: false,
       alert: {
         msg: '',
-        type: 'success'
+        type: 'success',
+        show: false
       },
       loading: false,
-      money: '',
-      consumes: [],
-      consume: '',
       user: {},
-      stepHeight: [130, 50, 50],
-      showUser: false
+      stepHeight: [170, 50, 50],
+      initUser: 1
     }
   },
   methods: {
@@ -274,72 +224,130 @@ export default {
       axios
         .post('/inserttally', {
           token: localStorage.getItem('token'),
-          money: that.money,
-          type: that.consume,
-          mode: that.modeForm.mode,
-          channel: that.modeForm.channel,
-          remark: that.modeForm.other.remark,
-          ctime: that.modeForm.other.date
+          money: that.tallyForm.money,
+          type: that.tallyForm.consume,
+          mode: that.tallyForm.mode,
+          channel: that.tallyForm.channel,
+          remark: that.tallyForm.remark,
+          ctime: that.tallyForm.date
         })
         .then(result => {
           if (result.data.result) {
-            that.initUser()
-            that.alert.msg = '记录完成'
-            that.alert.type = 'success'
-            that.show = true
+            that.initUser = that.initUser + 1
+            that.alert = {
+              msg: '记录完成',
+              type: 'success',
+              show: true
+            }
             that.loading = false
+            debugger
             setTimeout(() => {
+              debugger
               that.openScroll = false
-              that.modeForm.mode = '0'
-              that.modeForm.channel = '0'
-              that.modeForm.mode = '0'
-              that.modeForm.other = {}
-              that.money = ''
-              that.consume = ''
-              that.step = 0
+              that.tallyForm.mode = ''
+              that.tallyForm.channel = ''
+              that.tallyForm.mode = ''
+              that.tallyForm.money = ''
+              that.tallyForm.consume = ''
+              that.step = -1
             }, 500)
           }
         })
         .catch(err => {
-          that.alert.msg = '系统异常请重试'
-          that.alert.type = 'error'
-          that.show = true
+          that.alert = {
+            msg: '系统异常请重试',
+            type: 'error',
+            show: true
+          }
           that.loading = false
         })
     },
     showMode() {
       var that = this
-      if (that.money.length <= 0 || that.consume.length <= 0) return
+      if (
+        that.tallyForm.money.length <= 0 ||
+        that.tallyForm.consume.length <= 0
+      )
+        return
       setTimeout(() => {
         that.openScroll = true
       }, 200)
+      that.step = 0
     },
-    initUser() {
-      this.showUser = false
-      setTimeout(() => {
-        this.showUser = true
-      }, 100)
+    initLate() {
+      var that = this
+      axios
+        .post('http://localhost/gettallybyuser', {
+          token: localStorage.getItem('token'),
+          pageIndex: 1,
+          pageSize: 3
+        })
+        .then(result => {
+          if (result.data.result) {
+            console.log(result.data.body)
+            console.log('initLate')
+          } else {
+            that.alert.msg = '系统异常请重试'
+            that.alert.type = 'error'
+            that.show = true
+          }
+        })
     }
   },
   watch: {
-    'user.ConsumeType'(val) {
-      this.consumes = []
-      if (val.length > 0)
-        val.forEach(x => {
-          this.consumes.push(x.Content)
-        })
+    user(val) {
+      this.manyType.channels = [
+        {
+          content: '',
+          default: []
+        },
+        ...val.channels
+      ]
+      this.manyType.modes = [
+        {
+          content: '',
+          default: []
+        },
+        ...val.modes
+      ]
+      this.manyType.consumes = []
+      val.consumes.forEach(x => {
+        this.manyType.consumes.push(x.content)
+      })
     },
     step(val) {
       var that = this
       var min = 50
-      var height1 = 130
-      var height2 = 370
-      var height3 = 300
+      var height1 = 0
+      var height2 = 45 // 上一步按钮预留位置
+      var height3 = 280
+      var oneHeight = 60
       if (val == 0) {
+        that.user.consumes.forEach(c => {
+          if (c.content == that.tallyForm.consume) {
+            that.manyType.modes.forEach(m => {
+              if (c.default.indexOf(m.content) > -1) {
+                m.hide = false
+                height1 += oneHeight
+              } else {
+                m.hide = true
+              }
+            })
+            return false
+          }
+        })
         that.stepHeight[0] = height1
         that.stepHeight[1] = min
         that.stepHeight[2] = min
       } else if (val == 1) {
+        that.manyType.channels.forEach(c => {
+          if (c.default.indexOf(that.tallyForm.mode) > -1) {
+            c.hide = false
+            height2 += oneHeight
+          } else {
+            c.hide = true
+          }
+        })
         that.stepHeight[0] = min
         that.stepHeight[1] = height2
         that.stepHeight[2] = min
@@ -347,15 +355,17 @@ export default {
         that.stepHeight[0] = min
         that.stepHeight[1] = min
         that.stepHeight[2] = height3
-        that.modeForm.other.date = new Date().toString()
-        that.modeForm.other.remark = `${that.consume}${
-          that.modeForm.modes[that.modeForm.mode].content
-        }了${that.money}元。`
+        that.tallyForm.date = new Date()
+        var flag = that.tallyForm.mode == '收入' ? '收取' : '支付'
+        that.tallyForm.remark = `${that.tallyForm.consume}${
+          that.tallyForm.mode
+        }了${that.tallyForm.money}元，通过${that.tallyForm.channel}${flag}。`
       }
     }
   },
   mounted() {
     this.showUser = true
+    this.initLate()
   }
 }
 </script>

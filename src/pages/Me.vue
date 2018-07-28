@@ -1,11 +1,11 @@
 <template>
-  <main-layout>
+  <!-- <main-layout>
     <mu-container class="button-wrapper">
       <mu-flex justify-content="center" align-items="center">
         <mu-button round color="success" full-width>退出登陆</mu-button>
       </mu-flex>
     </mu-container>
-  </main-layout>
+  </main-layout> -->
 </template>
 
 <script>
