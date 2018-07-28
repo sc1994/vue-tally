@@ -1,7 +1,7 @@
 <template>
   <div>
     <main-layout :alert.sync="alert" :loading.sync="loading" :user.sync="user" :initUser="initUser">
-      <mu-paper :z-depth="3" class="paper-title">
+      <mu-paper :z-depth="5" class="paper-title">
         <Residue :height="165" :residue="90" style="margin-top: -10px;float:left;"></Residue>
         <div style="float:right;margin-top: 10px;">
           <span class="span-title">当月剩余：
@@ -14,7 +14,7 @@
             <span class="span-money" style="color:#4caf50">478</span> 元</span>
         </div>
       </mu-paper>
-      <mu-paper :z-depth="3" style="height:100px;padding:10px">
+      <mu-paper :z-depth="1" style="height:100px;padding:10px">
         <mu-text-field @blur="showMode" v-model="tallyForm.money" style="height:80px;width:50%" label="消费金额" prefix="￥" type="number" label-float></mu-text-field>
         <mu-auto-complete @change="showMode" v-model="tallyForm.consume" :data="manyType.consumes" style="height:80px;width:45%" label="消费类型" :max-search-results="5" open-on-focus label-float></mu-auto-complete>
       </mu-paper>
@@ -33,7 +33,7 @@
           </mu-list-item-action>
           <mu-list-item-content>
             <mu-list-item-title>{{item.remark}}</mu-list-item-title>
-            <mu-list-item-sub-title>{{item.ctime}}</mu-list-item-sub-title>
+            <mu-list-item-sub-title>{{formatDate(item.ctime)}}</mu-list-item-sub-title>
           </mu-list-item-content>
         </mu-list-item>
       </mu-list>
@@ -196,9 +196,9 @@ export default {
         show: false
       },
       loading: false,
+      initUser: 1,
       user: {},
       stepHeight: [170, 50, 50],
-      initUser: 1,
       tallyList: []
     }
   },
@@ -263,6 +263,20 @@ export default {
         that.openScroll = true
       }, 200)
       that.step = 0
+      var isExist = false
+      that.manyType.consumes.forEach(x => {
+        if (x.content == that.tallyForm.consume) {
+          isExist = true
+          return false
+        }
+      })
+      if (!isExist) {
+        that.user.consumes.push({
+          content: that.tallyForm.consume,
+          count: 1,
+          default: ['收入', '支出', '预支']
+        })
+      }
     },
     initLate() {
       var that = this
@@ -281,6 +295,9 @@ export default {
             that.show = true
           }
         })
+    },
+    formatDate(date) {
+      return format(date, 'yyyy-MM-dd hh:mm')
     }
   },
   watch: {
@@ -325,7 +342,6 @@ export default {
               }
             })
             if (height1 == oneHeight) {
-              height1 += 20
               // 直接到第二步
               that.step = 1
               that.tallyForm.mode = onlyMode
