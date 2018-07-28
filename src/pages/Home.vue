@@ -25,32 +25,16 @@
           <mu-button flat color="primary" class="button-right">查看全部</mu-button>
         </mu-sub-header>
         <mu-divider></mu-divider>
-        <mu-list-item avatar button :ripple="true">
-          <mu-list-item-action style="width:280px">
-            300 元
+        <mu-list-item :key="index" v-for="item,index in tallyList" avatar :ripple="false">
+          <mu-list-item-action>
+            <mu-avatar>
+              <img src="/src/static/head-default.png">
+            </mu-avatar>
           </mu-list-item-action>
-          <mu-list-item-title>加油</mu-list-item-title>
-          <mu-list-item-action style="width:380px">
-            2018年7月14日
-          </mu-list-item-action>
-        </mu-list-item>
-        <mu-list-item avatar button :ripple="true">
-          <mu-list-item-action style="width:280px">
-            300 元
-          </mu-list-item-action>
-          <mu-list-item-title>加油</mu-list-item-title>
-          <mu-list-item-action style="width:380px">
-            2018年7月14日
-          </mu-list-item-action>
-        </mu-list-item>
-        <mu-list-item avatar button :ripple="true">
-          <mu-list-item-action style="width:280px">
-            300 元
-          </mu-list-item-action>
-          <mu-list-item-title>加油</mu-list-item-title>
-          <mu-list-item-action style="width:380px">
-            2018年7月14日
-          </mu-list-item-action>
+          <mu-list-item-content>
+            <mu-list-item-title>{{item.remark}}</mu-list-item-title>
+            <mu-list-item-sub-title>{{item.ctime}}</mu-list-item-sub-title>
+          </mu-list-item-content>
         </mu-list-item>
       </mu-list>
       <mu-list>
@@ -104,7 +88,7 @@
           </mu-list-item-action>
         </mu-list-item>
         <!-- 留个空的撑开样式 -->
-        <mu-list-item avatar button :ripple="true">
+        <mu-list-item avatar button :ripple="false">
           <mu-list-item-action style="width:280px">
           </mu-list-item-action>
           <mu-list-item-title></mu-list-item-title>
@@ -214,7 +198,8 @@ export default {
       loading: false,
       user: {},
       stepHeight: [170, 50, 50],
-      initUser: 1
+      initUser: 1,
+      tallyList: []
     }
   },
   methods: {
@@ -234,15 +219,13 @@ export default {
         .then(result => {
           if (result.data.result) {
             that.initUser = that.initUser + 1
+            that.initLate()
             that.alert = {
               msg: '记录完成',
-              type: 'success',
-              show: true
+              type: 'success'
             }
-            that.loading = false
-            debugger
+            that.alert.show = true
             setTimeout(() => {
-              debugger
               that.openScroll = false
               that.tallyForm.mode = ''
               that.tallyForm.channel = ''
@@ -251,7 +234,14 @@ export default {
               that.tallyForm.consume = ''
               that.step = -1
             }, 500)
+          } else {
+            that.alert = {
+              msg: '发送异常',
+              type: 'error'
+            }
+            that.alert.show = true
           }
+          that.loading = false
         })
         .catch(err => {
           that.alert = {
@@ -284,8 +274,7 @@ export default {
         })
         .then(result => {
           if (result.data.result) {
-            console.log(result.data.body)
-            console.log('initLate')
+            that.tallyList = result.data.body
           } else {
             that.alert.msg = '系统异常请重试'
             that.alert.type = 'error'
@@ -325,14 +314,22 @@ export default {
       if (val == 0) {
         that.user.consumes.forEach(c => {
           if (c.content == that.tallyForm.consume) {
+            var onlyMode
             that.manyType.modes.forEach(m => {
               if (c.default.indexOf(m.content) > -1) {
                 m.hide = false
                 height1 += oneHeight
+                onlyMode = m.content
               } else {
                 m.hide = true
               }
             })
+            if (height1 == oneHeight) {
+              height1 += 20
+              // 直接到第二步
+              that.step = 1
+              that.tallyForm.mode = onlyMode
+            }
             return false
           }
         })
