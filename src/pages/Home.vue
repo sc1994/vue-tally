@@ -267,7 +267,7 @@ export default {
     initLate() {
       var that = this
       axios
-        .post('http://localhost/gettallybyuser', {
+        .post('/gettallybyuser', {
           token: localStorage.getItem('token'),
           pageIndex: 1,
           pageSize: 3
