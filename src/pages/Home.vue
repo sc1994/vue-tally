@@ -1,22 +1,22 @@
 <template>
   <div>
     <main-layout :alert.sync="alert" :loading.sync="loading" :user.sync="user" :initUser="initUser">
-      <mu-paper :z-depth="5" class="paper-title">
+      <mu-paper :z-depth="0" class="paper-title">
         <Residue :height="165" :residue="90" style="margin-top: -10px;float:left;"></Residue>
-        <div style="float:right;margin-top: 10px;">
+        <div style="margin-top: 10px;">
           <span class="span-title">当月剩余：
             <span class="span-money">50,203</span> 元</span>
           <br /><br />
           <span class="span-title">当月消费：
             <span class="span-money" style="color:#4caf50">356</span> 元</span>
           <br /><br />
-          <span class="span-title">6月的今天：
+          <span class="span-title">当月预支：
             <span class="span-money" style="color:#4caf50">478</span> 元</span>
         </div>
       </mu-paper>
       <mu-paper :z-depth="1" style="height:100px;padding:10px">
-        <mu-text-field @blur="showMode" v-model="tallyForm.money" style="height:80px;width:50%" label="消费金额" prefix="￥" type="number" label-float></mu-text-field>
-        <mu-auto-complete @change="showMode" v-model="tallyForm.consume" :data="manyType.consumes" style="height:80px;width:45%" label="消费类型" :max-search-results="5" open-on-focus label-float></mu-auto-complete>
+        <mu-text-field @blur="showMode" v-model="tallyForm.money" style="height:80px;width:50%" label="金额" prefix="￥" type="number" label-float></mu-text-field>
+        <mu-auto-complete @change="showMode" v-model="tallyForm.consume" :data="manyType.consumes" style="height:80px;width:45%" label="种类" :max-search-results="5" open-on-focus label-float></mu-auto-complete>
       </mu-paper>
       <br/>
       <mu-list>
@@ -227,12 +227,8 @@ export default {
             that.alert.show = true
             setTimeout(() => {
               that.openScroll = false
-              that.tallyForm.mode = ''
-              that.tallyForm.channel = ''
-              that.tallyForm.mode = ''
               that.tallyForm.money = ''
               that.tallyForm.consume = ''
-              that.step = -1
             }, 500)
           } else {
             that.alert = {
@@ -265,9 +261,8 @@ export default {
       that.step = 0
       var isExist = false
       that.manyType.consumes.forEach(x => {
-        if (x.content == that.tallyForm.consume) {
+        if (x == that.tallyForm.consume) {
           isExist = true
-          return false
         }
       })
       if (!isExist) {
@@ -328,10 +323,10 @@ export default {
       var height2 = 45 // 上一步按钮预留位置
       var height3 = 280
       var oneHeight = 60
+      var onlyMode = ''
       if (val == 0) {
         that.user.consumes.forEach(c => {
           if (c.content == that.tallyForm.consume) {
-            var onlyMode
             that.manyType.modes.forEach(m => {
               if (c.default.indexOf(m.content) > -1) {
                 m.hide = false
@@ -341,14 +336,13 @@ export default {
                 m.hide = true
               }
             })
-            if (height1 == oneHeight) {
-              // 直接到第二步
-              that.step = 1
-              that.tallyForm.mode = onlyMode
-            }
-            return false
           }
         })
+        if (height1 == oneHeight) {
+          // 直接到第二步
+          that.step = 1
+          that.tallyForm.mode = onlyMode
+        }
         that.stepHeight[0] = height1
         that.stepHeight[1] = min
         that.stepHeight[2] = min
@@ -374,6 +368,13 @@ export default {
           that.tallyForm.mode
         }了${that.tallyForm.money}元，通过${that.tallyForm.channel}${flag}。`
       }
+    },
+    openScroll(val) {
+      if (!val) {
+        this.tallyForm.mode = ''
+        this.tallyForm.channel = ''
+        this.step = -1
+      }
     }
   },
   mounted() {
@@ -388,29 +389,27 @@ export default {
   margin-left: 55%;
 }
 .span-title {
-  color: #424242;
-  margin-right: 10px;
+  color: rgb(20, 20, 20);
+  margin-right: 0px;
 }
 .span-money {
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 600;
   color: #ff5722;
+  margin-left: 0px;
 }
 .paper-title {
   height: 180px;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #e4e4e1;
-  background-image: radial-gradient(
-      at top center,
-      rgba(255, 255, 255, 0.03) 0%,
-      rgba(0, 0, 0, 0.03) 100%
-    ),
-    linear-gradient(
-      to top,
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(143, 152, 157, 0.6) 100%
-    );
-  background-blend-mode: normal, multiply;
+  background-image: linear-gradient(
+    to top,
+    #a7a7a7 0%,
+    lightgrey 1%,
+    #e0e0e0 26%,
+    #efefef 48%,
+    #d9d9d9 75%,
+    #a7a7a7 100%
+  );
 }
 </style>
