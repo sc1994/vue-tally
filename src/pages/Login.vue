@@ -17,9 +17,9 @@
       <mu-form-item label="确认密码" prop="password2" :rules="passwordRules" v-if="active == 1">
         <mu-text-field type="password" :error-text="pwdErrorText" v-model="loginModel.password2" prop="password"></mu-text-field>
       </mu-form-item>
-      <!-- <mu-form-item prop="remember">
-        <mu-checkbox :label="active == 1 ? '立即登陆' : '记住密码'" v-model="loginModel.remember"></mu-checkbox>
-      </mu-form-item> -->
+      <mu-form-item prop="remember" v-if="active == 0">
+        <mu-checkbox label="记住密码" v-model="loginModel.remember"></mu-checkbox>
+      </mu-form-item>
       <mu-form-item>
         <mu-button round full-width color="primary" style="width: 95%;" @click="submit">
           {{active == 1 ? "注 册" : "登 陆"}}
@@ -52,8 +52,8 @@ export default {
       loginModel: {
         username: '',
         password1: '',
-        password2: ''
-        // remember: false
+        password2: '',
+        remember: false
       },
       color: {
         color: '',
@@ -106,7 +106,8 @@ export default {
         axios
           .post(url, {
             name: that.loginModel.username,
-            password: that.loginModel.password1
+            password: that.loginModel.password1,
+            remember: that.loginModel.remember
           })
           .then(result => {
             var data = result.data
@@ -192,6 +193,13 @@ export default {
   },
   watch: {
     active(val) {
+      this.pwdErrorText = ''
+      this.nameErrorText = ''
+      this.loginModel = {
+        username: '',
+        password1: '',
+        password2: ''
+      }
       if (val === 1) {
         this.chenkName()
         if (this.loginModel.password1 != this.loginModel.password2) {
@@ -201,6 +209,9 @@ export default {
       } else {
         this.nameErrorText = ''
       }
+      setTimeout(() => {
+        this.$refs.form.clear()
+      }, 20)
     }
   }
 }
