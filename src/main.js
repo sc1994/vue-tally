@@ -3,8 +3,10 @@ import Vue from 'vue'
 import routes from './routes'
 import MuseUI from 'muse-ui'
 import Loading from 'muse-ui-loading'
+Vue.use(Loading)
 
 Vue.use(MuseUI)
+Vue.use(Loading)
 Vue.use(Loading)
 
 const app = new Vue({
