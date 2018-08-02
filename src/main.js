@@ -7,8 +7,6 @@ import Loading from 'muse-ui-loading'
 Vue.use(MuseUI)
 Vue.use(Loading)
 
-
-
 const app = new Vue({
   el: '#app',
   data: {
