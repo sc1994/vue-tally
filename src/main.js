@@ -8,6 +8,7 @@ Vue.use(MuseUI)
 Vue.use(Loading)
 
 
+
 const app = new Vue({
   el: '#app',
   data: {
